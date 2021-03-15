@@ -1,0 +1,36 @@
+#!/bin/bash
+INTRE='^[0-9]+$'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+if [ "$1" == "start" ]; then
+  /opt/xmrig-proxy/xmrig-proxy --config /etc/xmrig-proxy/config.json
+  echo $(pgrep -x xmrig-proxy) > /run/xmrig-proxy/xmrig-proxy.pid
+elif [ "$1" == "stop" ]; then
+  if [ -f /var/run/xmrig-proxy/xmrig-proxy.pid ]; then
+    kill $(cat /run/xmrig-proxy/xmrig-proxy.pid)
+    rm /run/xmrig-proxy/xmrig-proxy.pid
+  elif [ "$(pgrep -x xmrig-proxy)" != "" ]; then
+    kill $(pgrep -x xmrig-proxy)
+  else
+    echo "xmrig-proxyd not running."
+  fi
+elif [ "$1" == "status" ]; then
+  if [ "$(pgrep -x xmrig-proxy)" != "" ]; then
+    echo -e "Status: ${GREEN}running.${NC}"
+	echo "PID: $(pgrep -x xmrig-proxy)"
+  else
+    echo -e "Status: ${RED}stopped.${NC}"
+  fi
+  if [[ "$2" =~ $INTRE ]]; then
+    tail -n$2 "$(cat /etc/xmrig-proxy/config.json | grep -Po '(?<="log-file": ")[^"]*')"
+  elif [ "$2" == "" ]; then
+    tail -n25 "$(cat /etc/xmrig-proxy/config.json | grep -Po '(?<="log-file": ")[^"]*')"
+  else
+    echo "Invalid or missing arguements."
+    echo "Usage: xmrig-proxyd <start|stop|status> [Number of log lines to show. The default is 25.]"
+  fi
+else
+  echo "Invalid or missing arguements."
+  echo "Usage: xmrig-proxyd <start|stop|status> [Number of log lines to show. The default is 25.]"
+fi

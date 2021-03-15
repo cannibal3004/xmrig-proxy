@@ -1,0 +1,46 @@
+{
+    "access-log-file": "/var/log/xmrig-proxy/xmrig-proxy-access.log",
+    "algo": "cryptonight",
+    "api": {
+        "port": 0,
+        "access-token": null,
+        "worker-id": null,
+        "ipv6": false,
+        "restricted": true
+    },
+    "background": false,
+    "bind": [
+        "0.0.0.0:3333"
+    ],
+    "colors": true,
+    "donate-level": 0,
+    "log-file": "/var/log/xmrig-proxy/xmrig-proxy.log",
+    "mode": "nicehash",
+    "api": {
+        "id":null,
+        "worker-id":null
+    },
+    "http": {
+        "enabled":true,
+        "host":"127.0.0.1",
+        "port":8080,
+        "access-token":"Aj9wYwgGc92VUuPC4UH9FXKGGVwPnSVL",
+        "restricted":false
+    },
+    "pools": [
+        {
+            "url": "cryptonote.social:5555",
+            "user": "cannibal3004",
+            "pass": "donate=0;email=cannibal3004@gmail.com",
+            "keepalive": true,
+            "variant": -1,
+            "tls": false,
+            "tls-fingerprint": null
+        }
+    ],
+    "retries": 2,
+    "retry-pause": 1,
+    "syslog": false,
+    "verbose": false,
+    "workers": true
+}
